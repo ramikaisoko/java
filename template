@@ -1,0 +1,25 @@
+pool:
+  name: javanew
+  demands: maven
+
+steps:
+- task: Maven@3
+  displayName: 'Maven pom.xml'
+  inputs:
+    sonarQubeRunAnalysis: true
+
+- task: CopyFiles@2
+  displayName: 'Copier les fichiers vers : $(build.artifactstagingdirectory)'
+  inputs:
+    SourceFolder: '$(system.defaultworkingdirectory)'
+    Contents: |
+     **/*.war
+     Dockerfile
+    TargetFolder: '$(build.artifactstagingdirectory)\\java'
+  condition: succeededOrFailed()
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publier l''artefact : drop'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+  condition: succeededOrFailed()
