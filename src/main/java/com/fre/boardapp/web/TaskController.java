@@ -31,7 +31,7 @@ public class TaskController {
 
         if (result.hasErrors()) {
             Map<String, String> errorMap = new HashMap<>();
-            //result.getFieldErrors()
+            result.getFieldErrors()
 
             for (FieldError error : result.getFieldErrors()) {
                 errorMap.put(error.getField(), error.getDefaultMessage());
